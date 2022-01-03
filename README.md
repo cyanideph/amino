@@ -1,3 +1,5 @@
+<img src="images/amino_banner.jpeg" alt="Amino banner">
+
 ## Includes modules:
 - API — not wrapped library for interact with Amino. NOT RECOMMENDED TO USE, USE W-API INSTEAD IF POSSIBLE
 - W-API — wrap of api library for interact with Amino.

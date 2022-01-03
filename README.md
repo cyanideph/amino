@@ -1,8 +1,8 @@
 <img src="images/amino_banner.jpeg" alt="Amino banner">
 
 ## Includes modules:
-- API — not wrapped library for interact with Amino. NOT RECOMMENDED TO USE, USE W-API INSTEAD IF POSSIBLE
-- W-API — wrap of api library for interact with Amino.
+- [API](api) — not wrapped library for interact with Amino. NOT RECOMMENDED TO USE, USE W-API INSTEAD IF POSSIBLE
+- [W-API](w-api) — wrap of api library for interact with Amino.
 - SIGNER — api plugin to sign post requests to Amino.
 
 ## Gradle dependencies

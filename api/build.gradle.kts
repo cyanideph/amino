@@ -7,6 +7,7 @@ val mockito = "3.+"
 plugins {
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
+    id("maven-publish")
 }
 
 group = "ru.aminocoins.amino"
@@ -14,6 +15,7 @@ version = "1.0"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -39,6 +41,18 @@ tasks {
             events(
                 "passed", "failed", "skipped"
             )
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "ru.aminocoins.amino"
+            artifactId = "api"
+            version = project.version as String
+
+            from(components["kotlin"])
         }
     }
 }

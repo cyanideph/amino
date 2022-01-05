@@ -3,7 +3,7 @@
 ## Includes modules:
 - [API](api) — not wrapped library for interact with Amino. NOT RECOMMENDED TO USE, USE W-API INSTEAD IF POSSIBLE
 - [W-API](w-api) — wrap of api library for interact with Amino.
-- SIGNER — api plugin to sign post requests to Amino.
+- [SIGNER](signer) — api plugin to sign post requests to Amino.
 
 ## Gradle dependencies
 Firstly use maven publish plugin to publish all to maven local repository.

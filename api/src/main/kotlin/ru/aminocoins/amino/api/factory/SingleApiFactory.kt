@@ -11,5 +11,7 @@ class SingleApiFactory(
     }
 ) : ApiFactory {
     override val api: Api
-        get() = Api(mBaseUrl, mHttpClient)
+        get() = Api(mBaseUrl, mHttpClient).apply {
+            applyDefaultApiConfiguration()
+        }
 }

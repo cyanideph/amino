@@ -12,7 +12,7 @@ internal class ApiTest {
     @Test
     fun `WHEN action is global THEN url contains global word`() {
         val api = emptyApi
-        val actionUrl = api.actionToUrl(Actions.POST_DEVICE, global = true)
+        val actionUrl = api.actionToUrl(Actions.DEVICE, global = true)
         assertTrue {
             actionUrl.encodedPath.contains(Words.PATH_GLOBAL)
         }
@@ -22,7 +22,7 @@ internal class ApiTest {
     fun `WHEN action is global AND has ndcId THEN url contains global word and has ndcId`() {
         val api = emptyApi
         val ndcId = 100500
-        val actionUrl = api.actionToUrl(Actions.POST_DEVICE, global = true, ndcId = ndcId)
+        val actionUrl = api.actionToUrl(Actions.DEVICE, global = true, ndcId = ndcId)
         assertTrue {
             val encodedPath = actionUrl.encodedPath
             encodedPath.contains(Words.PATH_GLOBAL) && encodedPath.contains(ndcId.toString())
@@ -33,7 +33,7 @@ internal class ApiTest {
     fun `WHEN action isn't global AND hasn't ndcId THEN throw IllegalArgumentException`() {
         val api = emptyApi
         assertThrows<IllegalArgumentException> {
-            api.actionToUrl(Actions.POST_DEVICE)
+            api.actionToUrl(Actions.DEVICE)
         }
     }
 }

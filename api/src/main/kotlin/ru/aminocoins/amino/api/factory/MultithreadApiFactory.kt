@@ -18,5 +18,7 @@ class MultithreadApiFactory(
             httpClientConfigure?.invoke(this)
         }
     override val api: Api
-        get() = Api(mBaseUrl, httpClient)
+        get() = Api(mBaseUrl, httpClient).apply {
+            applyDefaultApiConfiguration()
+        }
 }

@@ -1,6 +1,7 @@
 package ru.aminocoins.amino.api
 
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
@@ -31,22 +32,50 @@ class Api(
         }
     }
 
-    suspend fun getCommunityInfo(ndcId: Int, params: (HashMap<String, String>.() -> Unit)? = null) {
-        return globalActionToUrl(Actions.GET_COMMUNITY_INFO, ndcId = ndcId, params = params).get()
-    }
+    suspend fun postGlobalAction(
+        action: String,
+        body: JsonObject,
+        ndcId: Int? = null,
+        params: (HashMap<String, String>.() -> Unit)? = null,
+        headers: Map<String, String>? = null,
+    ): JsonObject = globalActionToUrl(action, ndcId, params).post(body, headers)
 
-    suspend fun postDevice(body: JsonObject): JsonObject {
-        return globalActionToUrl(Actions.POST_DEVICE).post(body)
-    }
+    suspend fun getGlobalAction(
+        action: String,
+        ndcId: Int? = null,
+        params: (HashMap<String, String>.() -> Unit)? = null,
+        headers: Map<String, String>? = null,
+    ): JsonObject = globalActionToUrl(action, ndcId, params).get(headers)
 
-    suspend inline fun <reified TResponse> Url.get(): TResponse = mHttpClient.get(
+    suspend fun postCommunityAction(
+        action: String,
+        ndcId: Int,
+        body: JsonObject,
+        params: (HashMap<String, String>.() -> Unit)? = null,
+        headers: Map<String, String>? = null,
+    ): JsonObject = communityActionToUrl(action, ndcId, params).post(body, headers)
+
+    suspend fun getCommunityAction(
+        action: String,
+        ndcId: Int,
+        params: (HashMap<String, String>.() -> Unit)? = null,
+        headers: Map<String, String>? = null,
+    ): JsonObject = communityActionToUrl(action, ndcId, params).get(headers)
+
+    suspend inline fun <reified TResponse> Url.get(headers: Map<String, String>? = null): TResponse = mHttpClient.get(
         this
-    )
+    ) {
+        headers?.forEach { (name, value) -> header(name, value) }
+    }
 
-    suspend inline fun <reified TResponse, TBody : Any> Url.post(body: TBody): TResponse = mHttpClient.post(
+    suspend inline fun <reified TResponse, TBody : Any> Url.post(
+        body: TBody,
+        headers: Map<String, String>? = null,
+    ): TResponse = mHttpClient.post(
         this
     ) {
         this.body = body
+        headers?.forEach { (name, value) -> header(name, value) }
     }
 
     fun communityActionToUrl(action: String, ndcId: Int, params: (HashMap<String, String>.() -> Unit)? = null): Url {
@@ -99,6 +128,14 @@ class Api(
         plugin.install(this, configure)
     }
 
+    fun <TPlugin : Any, TConfiguration : Any> install(
+        plugin: Plugin<TPlugin, TConfiguration>,
+    ) {
+        plugin.install(this) {}
+    }
+
+    fun header(name: String): String = headersMap.getOrDefault(name, "")
+
     fun header(name: String, value: String) {
         headersMap[name] = value
     }
@@ -115,7 +152,15 @@ class Api(
             install(JsonFeature) {
                 serializer = KotlinxSerializer()
             }
+            defaultRequest {
+                contentType(ContentType.Application.Json)
+            }
             expectSuccess = false
+        }
+
+        fun Api.applyDefaultApiConfiguration() {
+            header(Words.HEADER_DEVICE_ID,
+                "19dd04c001032ccafdcfdcb0e5928d26c7d1b49abb6d01771b33b775f1829eebc860c15ecbef9ff257")
         }
     }
 }

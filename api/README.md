@@ -1,11 +1,13 @@
 <img src="../images/amino_banner.jpeg" alt="Amino banner">
 
 ### UNSTABLE library for interact with Amino api
+
 - UNSTABLE (only dynamic api objects)
 - Based on Ktor
 - Expandable (Has STABLE Plugins api)
 
 ---
+
 # NOT RECOMMENDED FOR USE, USE W-API INSTEAD IF POSSIBLE
 
 ---
@@ -51,7 +53,7 @@ class MyApplication {
     }
 
     private fun handleException(throwable: Throwable) {
-        when(throwable) {
+        when (throwable) {
             is UnknownHostException -> println("No internet connection!")
             is Exception -> println("Unknown exception has occurred")
         }
